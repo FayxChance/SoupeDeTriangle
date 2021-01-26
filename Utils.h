@@ -1,7 +1,12 @@
 /// \file Utils.h
+#pragma once
+
 #include <vector>
 #include <QGLViewer/qglviewer.h>
 #include <iostream>
+#include <fstream>
+#include <sstream>
+
 struct Vecteur {
     float xyz[ 3 ]; // les composantes
     Vecteur( float x, float y, float z );
@@ -9,16 +14,25 @@ struct Vecteur {
     float  operator[]( int i ) const;
 
     float& operator[]( int i );
-}
+};
 
-std::ostream& operator<<( std::ostream& out, Vecteur v ){ out << v[ 0 ] << " " << v[ 1 ] << " " << v[ 2 ]; }
-std::istream& operator>>( std::istream& in, Vecteur& v ){ in >> v[ 0 ] >> v[ 1 ] >> v[ 2 ]; }
+std::ostream& operator<<( std::ostream& out, Vecteur v );
+std::istream& operator>>( std::istream& in, Vecteur& v );
 
 struct Triangle {
     Vecteur sommet[3];
     Triangle(Vecteur sommet1, Vecteur sommet2, Vecteur sommet3);
-}
 
-std::ostream& operator<<( std::ostream& out, Triangle v ){ out << v[ 0 ] << " " << v[ 1 ] << " " << v[ 2 ]; }
-std::istream& operator>>( std::istream& in, Triangle& v ){ in >> v[ 0 ] >> v[ 1 ] >> v[ 2 ]; }
+    Vecteur  operator[]( int i ) const;
 
+    Vecteur& operator[]( int i );
+};
+
+std::ostream& operator<<( std::ostream& out, Triangle t );
+std::istream& operator>>( std::istream& in, Triangle& t );
+
+struct TriangleSoup {
+  std::vector<Triangle> triangles; // les triangles
+  TriangleSoup(){}
+  bool read( std::istream& in );
+};

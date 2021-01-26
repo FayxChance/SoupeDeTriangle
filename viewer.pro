@@ -9,9 +9,9 @@ CONFIG *= qt opengl release
 QT     *= opengl xml
 
 # Noms de vos fichiers entete
-HEADERS = Viewer.h
+HEADERS = Viewer.h Utils.h
 # Noms de vos fichiers source
-SOURCES = Viewer.cpp main.cpp
+SOURCES = Viewer.cpp main.cpp Utils.cpp
 
 ###########################################################
 # Commentez/decommentez selon votre config/systeme

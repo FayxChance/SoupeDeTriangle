@@ -53,9 +53,11 @@ OBJECTS_DIR   = ./
 ####### Files
 
 SOURCES       = Viewer.cpp \
-		main.cpp 
+		main.cpp \
+		Utils.cpp 
 OBJECTS       = Viewer.o \
-		main.o
+		main.o \
+		Utils.o
 DIST          = /usr/lib/qt/mkspecs/features/spec_pre.prf \
 		/usr/lib/qt/mkspecs/common/unix.conf \
 		/usr/lib/qt/mkspecs/common/linux.conf \
@@ -255,8 +257,10 @@ DIST          = /usr/lib/qt/mkspecs/features/spec_pre.prf \
 		/usr/lib/qt/mkspecs/features/exceptions.prf \
 		/usr/lib/qt/mkspecs/features/yacc.prf \
 		/usr/lib/qt/mkspecs/features/lex.prf \
-		viewer.pro Viewer.h Viewer.cpp \
-		main.cpp
+		viewer.pro Viewer.h \
+		Utils.h Viewer.cpp \
+		main.cpp \
+		Utils.cpp
 QMAKE_TARGET  = viewer
 DESTDIR       = 
 TARGET        = viewer
@@ -686,8 +690,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/qt/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents Viewer.h $(DISTDIR)/
-	$(COPY_FILE) --parents Viewer.cpp main.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents Viewer.h Utils.h $(DISTDIR)/
+	$(COPY_FILE) --parents Viewer.cpp main.cpp Utils.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -737,11 +741,16 @@ compiler_clean: compiler_moc_predefs_clean
 
 ####### Compile
 
-Viewer.o: Viewer.cpp Viewer.h
+Viewer.o: Viewer.cpp Viewer.h \
+		Utils.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Viewer.o Viewer.cpp
 
-main.o: main.cpp Viewer.h
+main.o: main.cpp Viewer.h \
+		Utils.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o main.cpp
+
+Utils.o: Utils.cpp Utils.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Utils.o Utils.cpp
 
 ####### Install
 
