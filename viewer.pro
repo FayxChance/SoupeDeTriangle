@@ -25,11 +25,11 @@ SOURCES = Viewer.cpp main.cpp
 # Exemple de configuration Linux de Qt et libQGLViewer Qt5
 # Ubuntu 16.04
 INCLUDEPATH *= /usr/include
-LIBS *= -L/usr/lib/x86_64-linux-gnu -lQGLViewer
+LIBS *= -L/usr/lib/ -lQGLViewer-qt5
 
 # Exemple de configuration MacOSX avec macports
-INCLUDEPATH *= /opt/local/include
-LIBS *= -L/opt/local/lib -lQGLViewer 
+#INCLUDEPATH *= /opt/local/include
+#LIBS *= -L/opt/local/lib -QGLViewer 
 
 # Exemple de configuration MacOSX avec frameworks
 ##  INCLUDEPATH *= /Users/login/libQGLViewer-2.6.4
