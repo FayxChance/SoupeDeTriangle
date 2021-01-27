@@ -6,10 +6,10 @@
 #include "Utils.h"
 
 class Viewer : public QGLViewer {
-    TriangleSoup * soupe;
 public:
+    const TriangleSoup * soupe;
+    Viewer(const TriangleSoup* soupe = 0):QGLViewer(),soupe(soupe) {}
     Viewer() : QGLViewer() {}
-    Viewer(TriangleSoup * soupe):QGLViewer(),soupe(soupe) {}
 
 
 protected :

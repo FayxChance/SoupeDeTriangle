@@ -2,3 +2,4 @@
 .idea/
 .qmake.stash
 .qglviewer.xml
+*.tri
