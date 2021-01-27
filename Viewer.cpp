@@ -33,9 +33,29 @@ void Viewer::draw() {
 
 
 void Viewer::init() {
+
+
     // Restore previous viewer state.
     restoreStateFromFile();
 
+    Vecteur max(0.0, 0.0, 0.0);
+    Vecteur min(0.0, 0.0, 0.0);
+    for (auto triangleIteratorBegin = soupe->triangles.begin(),
+                 triangleIteratorEnd = soupe->triangles.end();
+         triangleIteratorBegin < triangleIteratorEnd;
+         triangleIteratorBegin++) {
+        for (auto sommetIteratorBegin = std::begin(triangleIteratorBegin->sommet),
+                     sommetIteratorEnd = std::end(triangleIteratorBegin->sommet);
+             sommetIteratorBegin < sommetIteratorEnd;
+             sommetIteratorBegin++) {
+            min = min.inf(*sommetIteratorBegin);
+            max = max.sup(*sommetIteratorBegin);
+        }
+    }
+    qglviewer::Vec minQGL(min[0], min[1], min[2]);
+    qglviewer::Vec maxQGL(max[0], max[1], max[2]);
+    camera()->setSceneBoundingBox(minQGL, maxQGL);
+    camera()->showEntireScene();
     // Opens help window
     help();
 }

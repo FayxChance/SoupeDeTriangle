@@ -19,6 +19,12 @@ struct Vecteur {
     Vecteur inf(const Vecteur &other) const;
 
     Vecteur sup(const Vecteur &other) const;
+
+    Vecteur cross(const Vecteur &v) const;
+
+    float norme() const;
+
+    Vecteur operator*(float lambda);
 };
 
 std::ostream &operator<<(std::ostream &out, Vecteur v);
@@ -33,6 +39,8 @@ struct Triangle {
     Vecteur operator[](int i) const;
 
     Vecteur &operator[](int i);
+
+    Vecteur normal();
 };
 
 std::ostream &operator<<(std::ostream &out, Triangle t);

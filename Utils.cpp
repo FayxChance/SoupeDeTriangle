@@ -3,7 +3,7 @@
 #include <fstream>
 #include <vector>
 #include <sstream>
-
+#include <math.h>
 
 Vecteur::Vecteur(float x, float y, float z) {
     xyz[0] = x;
@@ -27,6 +27,19 @@ Vecteur Vecteur::sup(const Vecteur &other) const {
     return other.xyz[0] > xyz[0] && other.xyz[1] > xyz[1] && other.xyz[2] > xyz[2] ? other : *this;
 }
 
+Vecteur Vecteur::cross(const Vecteur &v) const {
+    return Vecteur((*this)[1] * v[2] - (*this)[2] * v[1],
+                   (*this)[2] * v[0] - (*this)[0] * v[2],
+                   (*this)[0] * v[1] - (*this)[1] * v[0]);
+}
+
+float Vecteur::norme() const {
+    return sqrt((*this)[0] * (*this)[0] + (*this)[1] * (*this)[1] + (*this)[2] * (*this)[2]);
+}
+
+Vecteur Vecteur::operator*(float lambda) {
+    return Vecteur((*this)[0] * lambda, (*this)[1] * lambda, (*this)[2] * lambda);
+}
 
 Triangle::Triangle(Vecteur sommet1, Vecteur sommet2, Vecteur sommet3) : sommet{sommet1, sommet2, sommet3} {}
 
@@ -36,6 +49,10 @@ Vecteur Triangle::operator[](int i) const {
 
 Vecteur &Triangle::operator[](int i) {
     return sommet[i];
+}
+
+Vecteur Triangle::normal() {
+    return;
 }
 
 bool TriangleSoup::read(std::istream &in) {
