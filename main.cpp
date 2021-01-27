@@ -9,14 +9,19 @@
 using namespace std;
 
 int main(int argc, char **argv) {
-    string nameTriFile = argv[1];
+    if (argc < 2)
+    {
+        std::cerr << "Usage: ./viewer <nomfichier> " << std::endl;
+        return 0;
+    }
+    std::string nameTriFile = argv[1];
     ifstream input(nameTriFile);
-    TriangleSoup soupe = TriangleSoup();
+    TriangleSoup soupe;
     soupe.read(input);
     // Read command lines arguments.
     QApplication application(argc, argv);
     // Instantiate the viewer.
-    Viewer viewer;
+    Viewer viewer(&soupe);
     // Give a name
     viewer.setWindowTitle("Viewer triangle soup");
     // Make the viewer window visible on screen.

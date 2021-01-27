@@ -4,7 +4,6 @@
 #include <vector>
 #include <sstream>
 
-using namespace std;
 
 Vecteur::Vecteur(float x, float y, float z) {
     xyz[0] = x;
@@ -30,14 +29,14 @@ Vecteur& Triangle::operator[](int i) {
     return sommet[i];
 }
 
-bool TriangleSoup::read(istream &in) {
+bool TriangleSoup::read(std::istream &in) {
     if ( ! in.good() ) return false;
-    string str;
+    std::string str;
     std::getline(in,str);
     Triangle triangle = Triangle(Vecteur(0,0,0),Vecteur(0,0,0),Vecteur(0,0,0));
     while(str != ""){
         if (str[0] != '#') {
-            istringstream strStream(str);
+            std::istringstream strStream(str);
             strStream >> triangle;
             triangles.push_back(triangle);
         }

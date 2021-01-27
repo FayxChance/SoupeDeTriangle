@@ -9,7 +9,9 @@ class Viewer : public QGLViewer {
     TriangleSoup * soupe;
 public:
     Viewer() : QGLViewer() {}
-    Viewer(TriangleSoup * soupe){soupe=soupe;}
+    Viewer(TriangleSoup * soupe):QGLViewer(),soupe(soupe) {}
+
+
 protected :
     /// Called at each draw of the window
     virtual void draw();

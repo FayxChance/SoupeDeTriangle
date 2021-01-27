@@ -8,7 +8,7 @@
 #include <sstream>
 
 struct Vecteur {
-    float xyz[ 3 ]; // les composantes
+    float xyz[ 3 ]{};
     Vecteur( float x, float y, float z );
 
     float  operator[]( int i ) const;

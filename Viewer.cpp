@@ -61,3 +61,4 @@ QString Viewer::helpString() const
   text += "Press <b>Escape</b> to exit the viewer.";
   return text;
 }
+
