@@ -6,28 +6,36 @@ using namespace std;
 // Draws a tetrahedron with 4 colors.
 void Viewer::draw() {
     float colorBronzeDiff[4] = {0.8, 0.6, 0.0, 1.0};
+    float colorBronzeSpec[4] = {1.0, 1.0, 0.4, 1.0};
+    float colorNull[4] = {0.0, 0.0, 0.0, 1.0};
     /*float colorRedDiff[4] = {1.0, 0.0, 0.0, 1.0};
     float colorGreenDiff[4] = {0.0, 1.0, 0.0, 1.0};
     float colorBlueDiff[4] = {0.0, 0.0, 1.0, 1.0};*/
-
+    int i = 0;
     // Draws triangles given by 3 vertices.
     glBegin(GL_TRIANGLES);
-    int i = 0;
+    glColor4fv(colorBronzeDiff);
+    glMaterialfv(GL_FRONT, GL_DIFFUSE, colorBronzeDiff);
+    glMaterialfv(GL_FRONT, GL_SPECULAR, colorBronzeSpec);
+    glMaterialf(GL_FRONT, GL_SHININESS, 30.0f);
     for (auto triangleIteratorBegin = soupe->triangles.begin(),
                  triangleIteratorEnd = soupe->triangles.end();
          triangleIteratorBegin < triangleIteratorEnd;
          triangleIteratorBegin++) {
-        glColor4fv(colorBronzeDiff);
+        i++;
+        const Triangle &triangle = *triangleIteratorBegin;
+
+        Vecteur n = triangle.normal();
+        glNormal3f(n[0], n[1], n[2]);
         for (auto sommetIteratorBegin = std::begin(triangleIteratorBegin->sommet),
                      sommetIteratorEnd = std::end(triangleIteratorBegin->sommet);
              sommetIteratorBegin < sommetIteratorEnd;
              sommetIteratorBegin++) {
-            glVertex3f(sommetIteratorBegin->xyz[0], sommetIteratorBegin->xyz[1], sommetIteratorBegin->xyz[2]);
-
+            glVertex3f(sommetIteratorBegin->xyz[0],
+                       sommetIteratorBegin->xyz[1],
+                       sommetIteratorBegin->xyz[2]);
         }
-        i++;
     }
-
     glEnd();
 }
 

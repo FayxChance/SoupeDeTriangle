@@ -3,3 +3,4 @@
 .qmake.stash
 .qglviewer.xml
 *.tri
+*.o

@@ -40,7 +40,7 @@ struct Triangle {
 
     Vecteur &operator[](int i);
 
-    Vecteur normal();
+    Vecteur normal() const;
 };
 
 std::ostream &operator<<(std::ostream &out, Triangle t);

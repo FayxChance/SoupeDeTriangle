@@ -51,8 +51,19 @@ Vecteur &Triangle::operator[](int i) {
     return sommet[i];
 }
 
-Vecteur Triangle::normal() {
-    return;
+Vecteur Triangle::normal() const {
+    Vecteur a = (*this)[0],
+    b = (*this)[1],
+    c = (*this)[2];
+    Vecteur ab(
+            b[0]-a[0],
+            b[1]-a[1],
+            b[2]-a[2]);
+    Vecteur ac(
+            c[0]-a[0],
+            c[1]-a[1],
+            c[2]-a[2]);
+    return  ab.cross(ac) * (1/(ab.cross(ac).norme()));
 }
 
 bool TriangleSoup::read(std::istream &in) {
