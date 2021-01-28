@@ -132,9 +132,10 @@ bool Index::operator==(const Index &other) const {
     return (idx[0] == other.idx[0]) && (idx[1] == other.idx[1]) && (idx[2] == other.idx[2]);
 }
 
-TriangleSoupZipper::TriangleSoupZipper(const TriangleSoup &anInput, Index size):
-min(0,0,0), max(0,0,0) {
-    size=size;
+TriangleSoupZipper::TriangleSoupZipper(const TriangleSoup &anInput,
+                                       TriangleSoup &anOuput, Index size) :
+        min(0, 0, 0), max(0, 0, 0) {
+    size = size;
     for (auto triangleIteratorBegin = anInput.triangles.begin(),
                  triangleIteratorEnd = anInput.triangles.end();
          triangleIteratorBegin < triangleIteratorEnd;
@@ -147,10 +148,24 @@ min(0,0,0), max(0,0,0) {
             max = max.sup(*sommetIteratorBegin);
         }
     }
-    tailleBoiteX = (Vecteur(max[0]-min[0],0,0).norme());
-    tailleBoiteY = (Vecteur(0,max[1]-min[1],0).norme());
-    tailleBoiteZ = (Vecteur(0,0,max[2]-min[2]).norme());
-    tailleMiniBoiteX = tailleBoiteX/size[0];
-    tailleMiniBoiteY = tailleBoiteX/size[1];
-    tailleMiniBoiteZ = tailleBoiteX/size[2];
+    tailleBoiteX = (Vecteur(max[0] - min[0], 0, 0).norme());
+    tailleBoiteY = (Vecteur(0, max[1] - min[1], 0).norme());
+    tailleBoiteZ = (Vecteur(0, 0, max[2] - min[2]).norme());
+    tailleMiniBoiteX = tailleBoiteX / size[0];
+    tailleMiniBoiteY = tailleBoiteY / size[1];
+    tailleMiniBoiteZ = tailleBoiteZ / size[2];
+}
+
+Index TriangleSoupZipper::index(const Vecteur &p) const {
+    float xPure =  p[0]-min[0];
+    float yPure =  p[1]-min[1];
+    float zPure =  p[2]-min[2];
+
+    return Index(floor(xPure/tailleMiniBoiteX),floor(yPure/tailleMiniBoiteY),floor(zPure/tailleMiniBoiteZ));
+}
+
+Vecteur TriangleSoupZipper::centroid(const Index &idx) const {
+    return Vecteur(min[0]+idx[0]*tailleMiniBoiteX+tailleMiniBoiteX/2,
+                   min[1]+idx[1]*tailleMiniBoiteY+tailleMiniBoiteY/2,
+                   min[2]+idx[2]*tailleMiniBoiteZ+tailleMiniBoiteZ/2);
 }
