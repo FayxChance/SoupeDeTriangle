@@ -49,7 +49,8 @@ std::istream &operator>>(std::istream &in, Triangle &t);
 
 struct TriangleSoup {
     std::vector<Triangle> triangles; // les triangles
-    TriangleSoup() {}
+
+    TriangleSoup(){};
 
     bool read(std::istream &in);
 };
@@ -70,5 +71,17 @@ struct Index {
     bool operator<(const Index &other) const;
 
     bool operator==(const Index &other) const;
+};
+
+struct TriangleSoupZipper {
+
+    Index size;
+    TriangleSoup soupe;
+    Vecteur min;
+    Vecteur max;
+    float tailleBoiteX, tailleBoiteY, tailleBoiteZ;
+    float tailleMiniBoiteX, tailleMiniBoiteY, tailleMiniBoiteZ;
+    TriangleSoupZipper( const TriangleSoup& anInput,
+                        Index size );
 
 };
