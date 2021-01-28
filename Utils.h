@@ -53,3 +53,22 @@ struct TriangleSoup {
 
     bool read(std::istream &in);
 };
+
+struct Index {
+    int idx[3];
+
+    Index() {}
+
+    Index(int i0, int i1, int i2);
+
+    Index(int indices[]);
+
+    int operator[](int i) const;
+
+    int &operator[](int i);
+
+    bool operator<(const Index &other) const;
+
+    bool operator==(const Index &other) const;
+
+};

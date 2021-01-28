@@ -53,17 +53,17 @@ Vecteur &Triangle::operator[](int i) {
 
 Vecteur Triangle::normal() const {
     Vecteur a = (*this)[0],
-    b = (*this)[1],
-    c = (*this)[2];
+            b = (*this)[1],
+            c = (*this)[2];
     Vecteur ab(
-            b[0]-a[0],
-            b[1]-a[1],
-            b[2]-a[2]);
+            b[0] - a[0],
+            b[1] - a[1],
+            b[2] - a[2]);
     Vecteur ac(
-            c[0]-a[0],
-            c[1]-a[1],
-            c[2]-a[2]);
-    return  ab.cross(ac) * (1/(ab.cross(ac).norme()));
+            c[0] - a[0],
+            c[1] - a[1],
+            c[2] - a[2]);
+    return ab.cross(ac) * (1 / (ab.cross(ac).norme()));
 }
 
 bool TriangleSoup::read(std::istream &in) {
@@ -101,4 +101,33 @@ std::ostream &operator<<(std::ostream &out, Triangle t) {
 std::istream &operator>>(std::istream &in, Triangle &t) {
     in >> t[0] >> t[1] >> t[2];
     return in;
+}
+
+Index::Index(int i0, int i1, int i2) {
+    idx[0] = i0;
+    idx[1] = i1;
+    idx[2] = i2;
+}
+
+Index::Index(int indices[]) {
+    idx[0] = indices[0];
+    idx[1] = indices[1];
+    idx[2] = indices[2];
+}
+
+int Index::operator[](int i) const { return idx[i]; }
+
+int &Index::operator[](int i) { return idx[i]; }
+
+bool Index::operator<(const Index &other) const {
+    return (idx[0] < other.idx[0])
+           || ((idx[0] == other.idx[0])
+               && ((idx[1] < other.idx[1])
+                   || ((idx[1] == other.idx[1])
+                       && (idx[2] < other.idx[2]))));
+}
+
+bool Index::operator==(const Index &other) const {
+    return (idx[0] == other.idx[0]) && (idx[1] == other.idx[1]) && (idx[2] == other.idx[2]);
+
 }
