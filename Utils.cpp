@@ -20,11 +20,17 @@ float &Vecteur::operator[](int i) {
 }
 
 Vecteur Vecteur::inf(const Vecteur &other) const {
-    return other.xyz[0] < xyz[0] && other.xyz[1] < xyz[1] && other.xyz[2] < xyz[2] ? other : *this;
+    return Vecteur(
+            (*this)[0] < other[0] ? (*this)[0] : other[0],
+            (*this)[1] < other[1] ? (*this)[1] : other[1],
+            (*this)[2] < other[2] ? (*this)[2] : other[2]);
 }
 
 Vecteur Vecteur::sup(const Vecteur &other) const {
-    return other.xyz[0] > xyz[0] && other.xyz[1] > xyz[1] && other.xyz[2] > xyz[2] ? other : *this;
+    return Vecteur(
+            (*this)[0] > other[0] ? (*this)[0] : other[0],
+            (*this)[1] > other[1] ? (*this)[1] : other[1],
+            (*this)[2] > other[2] ? (*this)[2] : other[2]);
 }
 
 Vecteur Vecteur::cross(const Vecteur &v) const {
@@ -132,6 +138,10 @@ bool Index::operator==(const Index &other) const {
     return (idx[0] == other.idx[0]) && (idx[1] == other.idx[1]) && (idx[2] == other.idx[2]);
 }
 
+bool Index::operator!=(const Index &other) const {
+    return (idx[0] != other.idx[0]) && (idx[1] != other.idx[1]) && (idx[2] != other.idx[2]);
+}
+
 TriangleSoupZipper::TriangleSoupZipper(const TriangleSoup &anInput,
                                        TriangleSoup &anOuput, Index size) :
         min(0, 0, 0), max(0, 0, 0) {
@@ -168,4 +178,24 @@ Vecteur TriangleSoupZipper::centroid(const Index &idx) const {
     return Vecteur(min[0]+idx[0]*tailleMiniBoiteX+tailleMiniBoiteX/2,
                    min[1]+idx[1]*tailleMiniBoiteY+tailleMiniBoiteY/2,
                    min[2]+idx[2]*tailleMiniBoiteZ+tailleMiniBoiteZ/2);
+}
+
+TriangleSoup TriangleSoupZipper::zip(TriangleSoup& soup) {
+    TriangleSoup resSoupe;
+    for (auto triangleIteratorBegin = soup.triangles.begin(),
+                 triangleIteratorEnd = soup.triangles.end();
+         triangleIteratorBegin < triangleIteratorEnd;
+         triangleIteratorBegin++) {
+        Index sommet1 = index((*triangleIteratorBegin)[0]);
+        Index sommet2 = index((*triangleIteratorBegin)[1]);
+        Index sommet3 = index((*triangleIteratorBegin)[2]);
+
+        if(sommet1 != sommet2 && sommet1 != sommet3 && sommet2 != sommet3){
+            Triangle tr(centroid(sommet1),
+                        centroid(sommet2),
+                        centroid(sommet3));
+            resSoupe.triangles.push_back(tr);
+        }
+    }
+    return resSoupe;
 }

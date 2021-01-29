@@ -71,7 +71,10 @@ struct Index {
     bool operator<(const Index &other) const;
 
     bool operator==(const Index &other) const;
-};
+
+    bool operator!=(const Index &other) const;
+
+    };
 
 struct TriangleSoupZipper {
 
@@ -88,4 +91,6 @@ struct TriangleSoupZipper {
     Index index(const Vecteur &p) const;
 
     Vecteur centroid(const Index &idx) const;
+
+    TriangleSoup zip(TriangleSoup& soup);
 };

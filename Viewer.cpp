@@ -44,7 +44,7 @@ void Viewer::init() {
 
 
     // Restore previous viewer state.
-    restoreStateFromFile();
+    // restoreStateFromFile();
 
     Vecteur max(0.0, 0.0, 0.0);
     Vecteur min(0.0, 0.0, 0.0);
@@ -62,6 +62,8 @@ void Viewer::init() {
     }
     qglviewer::Vec minQGL(min[0], min[1], min[2]);
     qglviewer::Vec maxQGL(max[0], max[1], max[2]);
+    printf("min %ld %ld %ld \n  max %ld %ld %ld\n",
+           minQGL.x, minQGL.y, minQGL.z,  maxQGL.x, maxQGL.y, maxQGL.z);
     camera()->setSceneBoundingBox(minQGL, maxQGL);
     camera()->showEntireScene();
     // Opens help window
