@@ -7,7 +7,7 @@ using namespace std;
 void Viewer::draw() {
     float colorBronzeDiff[4] = {0.8, 0.6, 0.0, 1.0};
     float colorBronzeSpec[4] = {1.0, 1.0, 0.4, 1.0};
-    float colorNull[4] = {0.0, 0.0, 0.0, 1.0};
+    //float colorNull[4] = {0.0, 0.0, 0.0, 1.0};
     /*float colorRedDiff[4] = {1.0, 0.0, 0.0, 1.0};
     float colorGreenDiff[4] = {0.0, 1.0, 0.0, 1.0};
     float colorBlueDiff[4] = {0.0, 0.0, 1.0, 1.0};*/
@@ -46,8 +46,8 @@ void Viewer::init() {
     // Restore previous viewer state.
     // restoreStateFromFile();
 
-    Vecteur max(0.0, 0.0, 0.0);
-    Vecteur min(0.0, 0.0, 0.0);
+    Vecteur max = soupe->triangles[0].sommet[0];
+    Vecteur min = soupe->triangles[0].sommet[0];
     for (auto triangleIteratorBegin = soupe->triangles.begin(),
                  triangleIteratorEnd = soupe->triangles.end();
          triangleIteratorBegin < triangleIteratorEnd;
@@ -62,8 +62,6 @@ void Viewer::init() {
     }
     qglviewer::Vec minQGL(min[0], min[1], min[2]);
     qglviewer::Vec maxQGL(max[0], max[1], max[2]);
-    printf("min %ld %ld %ld \n  max %ld %ld %ld\n",
-           minQGL.x, minQGL.y, minQGL.z,  maxQGL.x, maxQGL.y, maxQGL.z);
     camera()->setSceneBoundingBox(minQGL, maxQGL);
     camera()->showEntireScene();
     // Opens help window

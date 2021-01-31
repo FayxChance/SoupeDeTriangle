@@ -16,17 +16,22 @@ int main(int argc, char **argv) {
     }
     std::string nameTriFile = argv[1];
     ifstream input(nameTriFile);
+
     TriangleSoup soupe;
     soupe.read(input);
-    // Read command lines arguments.
+
+    /*
+    TriangleSoup zip;
+    TriangleSoupZipper zipper(soupe,zip,Index(150,150,150));
+    */
     QApplication application(argc, argv);
-    // Instantiate the viewer.
+
+    /*Viewer viewer(&zip);*/
+    //*
     Viewer viewer(&soupe);
-    // Give a name
+    //*/
     viewer.setWindowTitle("Viewer triangle soup");
-    // Make the viewer window visible on screen.
     viewer.show();
-    // Run main loop.
     application.exec();
     return 0;
 }

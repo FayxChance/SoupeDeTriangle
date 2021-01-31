@@ -144,8 +144,11 @@ bool Index::operator!=(const Index &other) const {
 
 TriangleSoupZipper::TriangleSoupZipper(const TriangleSoup &anInput,
                                        TriangleSoup &anOuput, Index size) :
-        min(0, 0, 0), max(0, 0, 0) {
-    size = size;
+        size(size[0], size[1], size[2]),
+        min(0, 0, 0), max(0, 0, 0),
+        in(const_cast<TriangleSoup &>(anInput)), out(anOuput){
+    min = anInput.triangles[0].sommet[0];
+    max = anInput.triangles[0].sommet[0];
     for (auto triangleIteratorBegin = anInput.triangles.begin(),
                  triangleIteratorEnd = anInput.triangles.end();
          triangleIteratorBegin < triangleIteratorEnd;
@@ -164,38 +167,43 @@ TriangleSoupZipper::TriangleSoupZipper(const TriangleSoup &anInput,
     tailleMiniBoiteX = tailleBoiteX / size[0];
     tailleMiniBoiteY = tailleBoiteY / size[1];
     tailleMiniBoiteZ = tailleBoiteZ / size[2];
+    printf(" Avant zip Nb triangle %ld\n", out.triangles.size());
+    zip();
+    printf(" Apres zip Nb triangle %ld\n", out.triangles.size());
+
 }
 
 Index TriangleSoupZipper::index(const Vecteur &p) const {
-    float xPure =  p[0]-min[0];
-    float yPure =  p[1]-min[1];
-    float zPure =  p[2]-min[2];
+    float xPure = p[0] - min[0];
+    float yPure = p[1] - min[1];
+    float zPure = p[2] - min[2];
 
-    return Index(floor(xPure/tailleMiniBoiteX),floor(yPure/tailleMiniBoiteY),floor(zPure/tailleMiniBoiteZ));
+    return Index(floor(xPure / tailleMiniBoiteX), floor(yPure / tailleMiniBoiteY), floor(zPure / tailleMiniBoiteZ));
 }
 
 Vecteur TriangleSoupZipper::centroid(const Index &idx) const {
-    return Vecteur(min[0]+idx[0]*tailleMiniBoiteX+tailleMiniBoiteX/2,
-                   min[1]+idx[1]*tailleMiniBoiteY+tailleMiniBoiteY/2,
-                   min[2]+idx[2]*tailleMiniBoiteZ+tailleMiniBoiteZ/2);
+    return Vecteur(min[0] + idx[0] * tailleMiniBoiteX + tailleMiniBoiteX / 2,
+                   min[1] + idx[1] * tailleMiniBoiteY + tailleMiniBoiteY / 2,
+                   min[2] + idx[2] * tailleMiniBoiteZ + tailleMiniBoiteZ / 2);
 }
 
-TriangleSoup TriangleSoupZipper::zip(TriangleSoup& soup) {
-    TriangleSoup resSoupe;
-    for (auto triangleIteratorBegin = soup.triangles.begin(),
-                 triangleIteratorEnd = soup.triangles.end();
+void TriangleSoupZipper::zip() {
+    for (auto triangleIteratorBegin = in.triangles.begin(),
+                 triangleIteratorEnd = in.triangles.end();
          triangleIteratorBegin < triangleIteratorEnd;
          triangleIteratorBegin++) {
-        Index sommet1 = index((*triangleIteratorBegin)[0]);
-        Index sommet2 = index((*triangleIteratorBegin)[1]);
-        Index sommet3 = index((*triangleIteratorBegin)[2]);
+        Index sommet1 = index((*triangleIteratorBegin).sommet[0]);
+        Index sommet2 = index((*triangleIteratorBegin).sommet[1]);
+        Index sommet3 = index((*triangleIteratorBegin).sommet[2]);
 
-        if(sommet1 != sommet2 && sommet1 != sommet3 && sommet2 != sommet3){
+        if (sommet1 != sommet2 && sommet1 != sommet3 && sommet2 != sommet3) {
             Triangle tr(centroid(sommet1),
                         centroid(sommet2),
                         centroid(sommet3));
-            resSoupe.triangles.push_back(tr);
+            out.triangles.push_back(tr);
         }
     }
-    return resSoupe;
+    printf(" Fin pendant zip Nb triangle %ld\n", out.triangles.size());
+
+
 }

@@ -81,6 +81,8 @@ struct TriangleSoupZipper {
     Index size;
     Vecteur min;
     Vecteur max;
+    TriangleSoup& in;
+    TriangleSoup& out;
     float tailleBoiteX, tailleBoiteY, tailleBoiteZ;
     float tailleMiniBoiteX, tailleMiniBoiteY, tailleMiniBoiteZ;
 
@@ -92,5 +94,5 @@ struct TriangleSoupZipper {
 
     Vecteur centroid(const Index &idx) const;
 
-    TriangleSoup zip(TriangleSoup& soup);
+    void zip();
 };
